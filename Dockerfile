@@ -28,5 +28,8 @@ COPY --from=builder /src/build/picoclaw /usr/local/bin/picoclaw
 # Create picoclaw home directory
 RUN /usr/local/bin/picoclaw onboard
 
-ENTRYPOINT ["picoclaw"]
-CMD ["gateway"]
+# Copy entrypoint script that generates config from env vars
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
